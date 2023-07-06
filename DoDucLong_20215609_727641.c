@@ -32,14 +32,14 @@ MH* creatMatHang(char* tenMatHang, char* donViTinh, int soLuong, int donGia) {
 	newNode->donGia = donGia;
 	newNode->thanhTien = soLuong * donGia;
 	if(strcmp(donViTinh, "Thung")==0) {
-		if(soLuong<10) newNode->tienVanChuyen = 50;
-		else if(soLuong<30) newNode->tienVanChuyen = 75;
-		else if(soLuong<50) newNode->tienVanChuyen = 100;
-		else newNode->tienVanChuyen = 150;
+		if(soLuong<20) newNode->tienVanChuyen = 70;
+		else if(soLuong<35) newNode->tienVanChuyen = 105;
+		else if(soLuong<50) newNode->tienVanChuyen = 125;
+		else newNode->tienVanChuyen = 170;
 	}
 	else {
-		if(soLuong<=50) newNode->tienVanChuyen = 30;
-		else newNode->tienVanChuyen = 75;
+		if(soLuong<=50) newNode->tienVanChuyen = 50;
+		else newNode->tienVanChuyen = 125;
 	}
 	newNode->next = NULL;
 	return newNode;
@@ -102,25 +102,40 @@ XK* insertXK(XK* head, char* tenKho, char* maPhieuXuat, int ngay, int thang, int
 void show(XK* headXK) {
 	printf("Ban da chon IN RA PHIEU XUAT!\n\n");
 	XK* p = headXK;
+	int sumThanhTien = 0, sumVanChuyen = 0, sumPhaiThanhToan = 0, sumDaThanhToan = 0;
 	while(p) {
-		printf("Ten kho hang: %s\n", p->tenKho);
-		printf("Ngay %d thang %d nam %d\n", p->ngay, p->thang, p->nam);
-		printf("So mat hang: %d\n", p->soMatHang);
-		printf("Da thanh toan: %d\n", p->soTienDaThanhToan);
-		printf("Tong thanh tien: %d\n", p->soTienPhaiThanhToan);
-		printf("Tong van chuyen: %d\n", p->soTienVanChuyen);
-		printf("Tong phai thanh toan: %d\n", p->soTienPhaiThanhToan + p->soTienVanChuyen);
-		if(p->soTienDaThanhToan >= (p->soTienPhaiThanhToan+p->soTienVanChuyen)) printf("Tinh trang thanh toan: Du\n");
-		else printf("Tinh trang thanh toan: Thieu\n");
-		printf("%-30s%-10s%-6s%-10s%-15s%-15s%-15s\n", "Ten mat hang", "DonVT", "soL", "dongia", "Thanhtien", "VanChuyen", "Cong");
+		printf("\tTen kho hang: %s\n", p->tenKho);
+		printf("\tNgay %d thang %d nam %d\n", p->ngay, p->thang, p->nam);
+		printf("\tSo mat hang: %d\n", p->soMatHang);
+		printf("\tDa thanh toan: %d\n", p->soTienDaThanhToan);
+		printf("\tTong thanh tien: %d\n", p->soTienPhaiThanhToan);
+		printf("\tTong van chuyen: %d\n", p->soTienVanChuyen);
+		printf("\tTong phai thanh toan: %d\n", p->soTienPhaiThanhToan + p->soTienVanChuyen);
+		if(p->soTienDaThanhToan >= (p->soTienPhaiThanhToan+p->soTienVanChuyen)) 
+			printf("\tTinh trang thanh toan: \t\t Chuyen Phieu Xuat sau so tien: %d\n", p->soTienDaThanhToan - (p->soTienPhaiThanhToan+p->soTienVanChuyen));
+		else printf("\tTinh trang thanh toan: \t\t Thanh toan thieu so tien: %d\n", p->soTienPhaiThanhToan+p->soTienVanChuyen-p->soTienDaThanhToan);
+		printf("\t\tChi tiet cac Mat Hang:\n");
+		printf("\t%-20s%-10s%-6s%-10s%-15s%-15s%-15s\n", "Ten mat hang", "DonVT", "soL", "dongia", "Thanhtien", "VanChuyen", "Cong");
 		MH* q = p->one;
 		while(q) {
-			printf("%-30s%-10s%-6d%-10d%-15d%-15d%-15d\n", q->tenMatHang, q->donViTinh, q->soLuong, q->donGia, q->thanhTien, q->tienVanChuyen, q->thanhTien+q->tienVanChuyen);
+			printf("\t%-20s%-10s%-6d%-10d%-15d%-15d%-15d\n", q->tenMatHang, q->donViTinh, q->soLuong, q->donGia, q->thanhTien, q->tienVanChuyen, q->thanhTien+q->tienVanChuyen);
 			q = q->next;
 		}
 		printf("\n\n");
+		sumThanhTien += p->soTienPhaiThanhToan;
+		sumVanChuyen += p->soTienVanChuyen;
+		sumPhaiThanhToan += p->soTienPhaiThanhToan + p->soTienVanChuyen;
+		sumDaThanhToan += p->soTienDaThanhToan;
 		p = p->next;
 	}
+	printf("\tTong Thanh tien cac Phieu xuat: %d\n", sumThanhTien);
+	printf("\tTong Van chuyen cac Phieu Xuat: %d\n", sumVanChuyen);
+	printf("\tTong phai Thanh toan cac Phieu xuat: %d\n", sumPhaiThanhToan);
+	printf("\tTong da Thanh toan cac Phieu xuat: %d\n", sumDaThanhToan);
+	if(sumDaThanhToan < sumPhaiThanhToan) printf("Tinh trang thanh toan: \tThanh toan thieu so tien: %d\n", sumPhaiThanhToan - sumDaThanhToan);
+	else printf("Tinh trang thanh toan: \tChuyen Phieu xuat sau so tien: %d\n", sumDaThanhToan - sumPhaiThanhToan);
+	printf("Bam phim bat ky de tiep tuc!");
+	printf("\n\n");
 }
 
 int main() {
@@ -132,7 +147,7 @@ int main() {
 	int ngay, thang, nam, soMatHang, soTienDaThanhToan, line, n, i, k = 0;
 	
 	while(1) {
-		printf("Do Duc Long - 20215609\n");
+		printf("Do Duc Long - 20215609 - 727641 - IT3040 - 2022.2\n");
 		printf("** CHUONG TRINH QUAN LY PHIEU XUAT **\n");
 		printf("**1. Nhap cac phieu xuat, mat hang **\n");
 		printf("**2. In ket qua phieu xuat va mat hang **\n");
@@ -151,7 +166,7 @@ int main() {
 					printf("\tTen Kho hang: ");
 					fgets(tenKho[i], 30, stdin); fflush(stdin);
 					tenKho[i][strlen(tenKho[i])-1] = '\0';
-					printf("\tMa phieu xuat: ");
+					printf("\n\tMa phieu xuat: ");
 					fgets(maPhieuXuat[i], 30, stdin); fflush(stdin);
 					maPhieuXuat[i][strlen(maPhieuXuat[i])-1] = '\0';
 					printf("\nNgay lap phieu xuat: \n");
@@ -166,6 +181,7 @@ int main() {
 					
 					int soLuong, donGia, j;
 					headMH[i] = NULL;
+					printf("\n\tNhap ds cac mat hang:\n");
 					for(j=0; j<soMatHang; j++) {
 						printf("\tMat hang thu %d\n", (j+1));
 						printf("\t\tTen mat hang:");
@@ -190,6 +206,7 @@ int main() {
 				show(headXK);
 				break;
 			case 0:
+				printf("Ban da chon thoat chuong trinh\n");
 				return 0;
 			default:
 				printf("Invalid\n");
