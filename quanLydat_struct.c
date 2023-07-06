@@ -76,7 +76,7 @@ void show(company* head) {
 
 int main() {
 	company* head = NULL;
-	int line, n, i;
+	int line, n, i, companyNub, j;
 	char name[30], address[30], ma[10], hinh[20];
 	
 	double a,b,c;
@@ -96,83 +96,88 @@ int main() {
 		switch(line) {
 			case 1:
 				printf("Ban da chon nhap MIENG DAT VA DO DAI !\n");
-				printf("Ten cong ty: ");
-				fgets(name, 30, stdin); fflush(stdin);
-				name[strlen(name)-1] = '\0';
-				printf("\nDia chi cong ty: ");
-				fgets(address, 30, stdin); fflush(stdin);
-				address[strlen(address)-1] = '\0';
-				printf("\nSo Mieng Dat: ");
-				scanf("%d", &n);
-				getchar();
-				printf("\nNhap ds cac mieng dat:\n");
-				for(i=0; i<n; i++) {
-					printf("Ma mieng dat thu (MD001,MD002,MD003) %d: ", i+1); 
-					fgets(ma, 10, stdin); fflush(stdin);
-					ma[strlen(ma)-1] = '\0';
-					strcpy(arr[i].maMD,ma);
-					if(strcmp(ma,"MD001")==0) arr[i].donGia = 50;
-					else if(strcmp(ma,"MD002")==0) arr[i].donGia = 30;
-					else arr[i].donGia = 10;
-					printf("\nDon gia theo m^2: %d\n", arr[i].donGia);
-					printf("Mieng dat Hinh(Vuong, Thang, Tamgiac, HCNhat): ");
-					fgets(hinh, 20, stdin); fflush(stdin);
-					hinh[strlen(hinh)-1] = '\0';
-					strcpy(arr[i].hinh,hinh);
-					if(strcmp(hinh,"Vuong")==0){
-						printf("\nCanh hinh vuong: ");
-						scanf("%lf", &a);
-						getchar();
-						arr[i].canh = a;
-						arr[i].area = a*a;
-						arr[i].thanhTien = arr[i].area * arr[i].donGia;
-						arr[i].giamGia = 0;
+				printf("Nhap so cong ty: ");
+				scanf("%d", &companyNub); getchar();
+				for(j=0; j<companyNub; j++) {
+					printf("Nhap thong tin Cong ty %d\n", (j+1));
+					printf("Ten cong ty: ");
+					fgets(name, 30, stdin); fflush(stdin);
+					name[strlen(name)-1] = '\0';
+					printf("\nDia chi cong ty: ");
+					fgets(address, 30, stdin); fflush(stdin);
+					address[strlen(address)-1] = '\0';
+					printf("\nSo Mieng Dat: ");
+					scanf("%d", &n);
+					getchar();
+					printf("\nNhap ds cac mieng dat:\n");
+					for(i=0; i<n; i++) {
+						printf("Ma mieng dat thu (MD001,MD002,MD003) %d: ", i+1); 
+						fgets(ma, 10, stdin); fflush(stdin);
+						ma[strlen(ma)-1] = '\0';
+						strcpy(arr[i].maMD,ma);
+						if(strcmp(ma,"MD001")==0) arr[i].donGia = 50;
+						else if(strcmp(ma,"MD002")==0) arr[i].donGia = 30;
+						else arr[i].donGia = 10;
+						printf("\nDon gia theo m^2: %d\n", arr[i].donGia);
+						printf("Mieng dat Hinh(Vuong, Thang, Tamgiac, HCNhat): ");
+						fgets(hinh, 20, stdin); fflush(stdin);
+						hinh[strlen(hinh)-1] = '\0';
+						strcpy(arr[i].hinh,hinh);
+						if(strcmp(hinh,"Vuong")==0){
+							printf("\nCanh hinh vuong: ");
+							scanf("%lf", &a);
+							getchar();
+							arr[i].canh = a;
+							arr[i].area = a*a;
+							arr[i].thanhTien = arr[i].area * arr[i].donGia;
+							arr[i].giamGia = 0;
+						}
+						else if(strcmp(hinh,"Thang")==0) {
+							printf("\nDay nho: ");
+							scanf("%lf", &a); getchar();
+							arr[i].daynho = a;
+							printf("\nDay lon: ");
+							scanf("%lf", &b); getchar();
+							arr[i].daylon = b;
+							printf("\nChieu cao: ");
+							scanf("%lf", &c); getchar();
+							arr[i].chieucao = c;
+							arr[i].area = (a+b)*c/2;
+							arr[i].thanhTien = arr[i].area * arr[i].donGia;
+							arr[i].giamGia = arr[i].thanhTien*10/100;
+						}
+						else if(strcmp(hinh,"Tamgiac")==0) {
+							printf("\nChieu cao: ");
+							scanf("%lf", &a); getchar();
+							arr[i].chieucao = a;
+							printf("\nCanh day: ");
+							scanf("%lf", &b); getchar();
+							arr[i].day = b;
+							arr[i].area = a*b/2;
+							arr[i].thanhTien = arr[i].area * arr[i].donGia;
+							arr[i].giamGia = arr[i].thanhTien*10/100;
+						}
+						else if(strcmp(hinh,"HCNhat")==0) {
+							printf("\nChieu dai: ");
+							scanf("%lf", &a); getchar();
+							arr[i].dai = a;
+							printf("\nChieu rong: ");
+							scanf("%lf", &b); getchar();
+							arr[i].rong = b;
+							arr[i].area = a*b;
+							arr[i].thanhTien = arr[i].area * arr[i].donGia;
+							arr[i].giamGia = 0;
+						}
+						if(strcmp(ma,"MD001")==0) arr[i].datCoc = arr[i].thanhTien*70/100;
+						else if(strcmp(ma,"MD002")==0) arr[i].datCoc = arr[i].thanhTien*50/100;
+						else arr[i].datCoc = arr[i].thanhTien*30/100;
+						printf("\nDien tich: %.1lf\n", arr[i].area);
+						printf("Thanh tien: %.1lf\n", arr[i].thanhTien);
+						printf("Tien dat coc: %.1lf\n", arr[i].datCoc);
+						printf("Giam gia: %.1lf\n", arr[i].giamGia);
 					}
-					else if(strcmp(hinh,"Thang")==0) {
-						printf("\nDay nho: ");
-						scanf("%lf", &a); getchar();
-						arr[i].daynho = a;
-						printf("\nDay lon: ");
-						scanf("%lf", &b); getchar();
-						arr[i].daylon = b;
-						printf("\nChieu cao: ");
-						scanf("%lf", &c); getchar();
-						arr[i].chieucao = c;
-						arr[i].area = (a+b)*c/2;
-						arr[i].thanhTien = arr[i].area * arr[i].donGia;
-						arr[i].giamGia = arr[i].thanhTien*10/100;
-					}
-					else if(strcmp(hinh,"Tamgiac")==0) {
-						printf("\nChieu cao: ");
-						scanf("%lf", &a); getchar();
-						arr[i].chieucao = a;
-						printf("\nCanh day: ");
-						scanf("%lf", &b); getchar();
-						arr[i].day = b;
-						arr[i].area = a*b/2;
-						arr[i].thanhTien = arr[i].area * arr[i].donGia;
-						arr[i].giamGia = arr[i].thanhTien*10/100;
-					}
-					else if(strcmp(hinh,"HCNhat")==0) {
-						printf("\nChieu dai: ");
-						scanf("%lf", &a); getchar();
-						arr[i].dai = a;
-						printf("\nChieu rong: ");
-						scanf("%lf", &b); getchar();
-						arr[i].rong = b;
-						arr[i].area = a*b;
-						arr[i].thanhTien = arr[i].area * arr[i].donGia;
-						arr[i].giamGia = 0;
-					}
-					if(strcmp(ma,"MD001")==0) arr[i].datCoc = arr[i].thanhTien*70/100;
-					else if(strcmp(ma,"MD002")==0) arr[i].datCoc = arr[i].thanhTien*50/100;
-					else arr[i].datCoc = arr[i].thanhTien*30/100;
-					printf("\nDien tich: %.1lf\n", arr[i].area);
-					printf("Thanh tien: %.1lf\n", arr[i].thanhTien);
-					printf("Tien dat coc: %.1lf\n", arr[i].datCoc);
-					printf("Giam gia: %.1lf\n", arr[i].giamGia);
+					head = insertToLast(head,name,address,n,arr);
 				}
-				head = insertToLast(head,name,address,n,arr);
 				break;
 			case 2:
 				printf("Ban da chon IN RA MIENG DAT !\n");
